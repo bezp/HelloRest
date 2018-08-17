@@ -15,6 +15,9 @@ namespace HelloRest.Service
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+            services.AddCors(c => c.AddPolicy(
+                "AllowNode", options => options.AllowAnyMethod().WithOrigins("http://127.0.0.1:5005", "http://192.168.61.102")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -25,10 +28,14 @@ namespace HelloRest.Service
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            //app.UseCors(c => c.AllowAnyOrigin().AllowAnyMethod());
+            //app.UseCors();
+
+            app.UseMvc();
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("Hello World!");
+            //});
         }
     }
 }
